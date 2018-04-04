@@ -1,11 +1,20 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
+import { compose } from "recompose";
+import { connect } from "react-redux";
 
 import Header from "../Header";
 import Description from "../Description";
 import GameContainer from "../GameContainer";
+import { initTilesRequest } from "../../actions/tiles";
+const enhance = compose(connect(null, { initTilesRequest }));
 
 class App extends PureComponent {
+  componentDidMount() {
+    const { initTilesRequest } = this.props;
+    initTilesRequest();
+  }
+
   render() {
     return (
       <MainContainer>
@@ -36,4 +45,4 @@ const Explanation = styled.p`
   line-height: 1.65;
 `;
 
-export default App;
+export default enhance(App);

@@ -1,9 +1,17 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
+import { compose } from "recompose";
+import { connect } from "react-redux";
+
+import { initTilesRequest } from "../../actions/tiles";
+
+const enhance = compose(connect(null, { initTilesRequest }));
 
 class Description extends PureComponent {
-  handleClick = e => {
+  runNewGame = e => {
     e.preventDefault();
+    const { initTilesRequest } = this.props;
+    initTilesRequest();
   };
 
   render() {
@@ -12,7 +20,7 @@ class Description extends PureComponent {
         <Intro>
           Join the numbers and get to the <b>2048 tile!</b>
         </Intro>
-        <Button onClick={this.handleClick}>New Game</Button>
+        <Button onClick={this.runNewGame}>New Game</Button>
       </Container>
     );
   }
@@ -39,4 +47,4 @@ const Button = styled.a`
   text-align: center;
 `;
 
-export default Description;
+export default enhance(Description);
