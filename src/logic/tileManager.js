@@ -1,6 +1,6 @@
 import { uniqueId } from "lodash";
 
-const cellStates = {
+const tileStates = {
   IDLE: "IDLE",
   MOVING: "MOVING",
   DYING: "DYING",
@@ -12,7 +12,7 @@ const create = (x, y, value, id) => ({
   y,
   value,
   id: id ? id : uniqueId(),
-  state: cellStates.IDLE
+  state: tileStates.IDLE
 });
 
-export { create, cellStates };
+export { create, tileStates };
