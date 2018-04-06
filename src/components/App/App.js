@@ -9,6 +9,7 @@ import GameContainer from "../GameContainer";
 import {
   initTilesRequest,
   moveTilesRequest,
+  populateFieldRequest,
   updateTilesRequest
 } from "../../actions/tiles";
 import { directions } from "../../logic/moveTiles";
@@ -17,7 +18,8 @@ const enhance = compose(
   connect(null, {
     initTilesRequest,
     moveTilesRequest,
-    updateTilesRequest
+    updateTilesRequest,
+    populateFieldRequest
   })
 );
 
@@ -32,7 +34,11 @@ class App extends PureComponent {
   handleKeyPress = async e => {
     const keyCode = e.code;
     if (["KeyA", "KeyS", "KeyD", "KeyW"].includes(keyCode)) {
-      const { moveTilesRequest, updateTilesRequest } = this.props;
+      const {
+        moveTilesRequest,
+        updateTilesRequest,
+        populateFieldRequest
+      } = this.props;
       moveTilesRequest({
         direction: this.mapKeyCodeToDirection[keyCode]
       });
@@ -40,6 +46,7 @@ class App extends PureComponent {
       await delay(100);
 
       updateTilesRequest();
+      populateFieldRequest();
     }
   };
 
@@ -47,6 +54,10 @@ class App extends PureComponent {
     const { initTilesRequest } = this.props;
     initTilesRequest();
     document.addEventListener("keypress", this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.handleKeyPress)
   }
 
   render() {
