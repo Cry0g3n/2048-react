@@ -6,10 +6,20 @@ import { connect } from "react-redux";
 import Header from "../Header";
 import Description from "../Description";
 import GameContainer from "../GameContainer";
-import { initTilesRequest, moveTilesRequest } from "../../actions/tiles";
+import {
+  initTilesRequest,
+  moveTilesRequest,
+  updateTilesRequest
+} from "../../actions/tiles";
 import { directions } from "../../logic/moveTiles";
 
-const enhance = compose(connect(null, { initTilesRequest, moveTilesRequest }));
+const enhance = compose(
+  connect(null, {
+    initTilesRequest,
+    moveTilesRequest,
+    updateTilesRequest
+  })
+);
 
 class App extends PureComponent {
   mapKeyCodeToDirection = {
@@ -19,12 +29,17 @@ class App extends PureComponent {
     KeyW: directions.UP
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = async e => {
     const keyCode = e.code;
     if (["KeyA", "KeyS", "KeyD", "KeyW"].includes(keyCode)) {
-      this.props.moveTilesRequest({
+      const { moveTilesRequest, updateTilesRequest } = this.props;
+      moveTilesRequest({
         direction: this.mapKeyCodeToDirection[keyCode]
       });
+
+      await delay(100);
+
+      updateTilesRequest();
     }
   };
 
@@ -63,5 +78,7 @@ const Explanation = styled.p`
   text-align: justify;
   line-height: 1.65;
 `;
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export default enhance(App);

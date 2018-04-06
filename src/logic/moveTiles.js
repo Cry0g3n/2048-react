@@ -1,5 +1,5 @@
 import { cloneDeep } from "lodash";
-import matrixRotate from 'matrix-rotate'
+import matrixRotate from "matrix-rotate";
 
 import { tileStates } from "./tileManager";
 
