@@ -1,11 +1,28 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
+import { compose } from "recompose";
+import { connect } from "react-redux";
+
+import { getScore } from "../../reducers/tiles";
+import Score from "../Score/Score";
+
+const enhance = compose(
+  connect(
+    state => ({
+      score: getScore(state)
+    }),
+    null
+  )
+);
 
 class Header extends PureComponent {
   render() {
+    const { score } = this.props;
+
     return (
       <Container>
         <Title>{TitleText}</Title>
+        <Score value={score}/>
       </Container>
     );
   }
@@ -26,4 +43,4 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-export default Header;
+export default enhance(Header);

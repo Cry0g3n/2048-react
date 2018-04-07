@@ -19,7 +19,8 @@ export default handleActions(
   {
     [initTilesRequest]: (state, action) => ({
       ...state,
-      tiles: initTiles()
+      tiles: initTiles(),
+      score: 0
     }),
     [moveTilesRequest]: (state, action) => ({
       ...state,
@@ -29,6 +30,14 @@ export default handleActions(
       ...state,
       tiles: updateTiles(state.tiles)
     }),
+    [updateTilesRequest]: (state, action) => {
+      const {nextTiles, score} = updateTiles(state.tiles);
+      return {
+        ...state,
+        tiles: nextTiles,
+        score: state.score + score
+      }
+    },
     [populateFieldRequest]: (state, action) => ({
       ...state,
       tiles: populateField(state.tiles)
@@ -38,3 +47,4 @@ export default handleActions(
 );
 
 export const getTiles = state => state.tiles.tiles;
+export const getScore = state => state.tiles.score;
